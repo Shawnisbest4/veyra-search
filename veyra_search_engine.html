@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veyra — Search</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f8fa;
+    color: #17191c;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+  }
+  .brand {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .brand span { color: #315efb; }
+  .top-link {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  main {
+    width: min(900px, calc(100% - 32px));
+    margin: 13vh auto 0;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(54px, 9vw, 88px);
+    margin: 0 0 12px;
+    letter-spacing: -5px;
+  }
+  .tagline {
+    margin: 0 0 30px;
+    color: #6b7078;
+    font-size: 16px;
+  }
+  form {
+    width: min(720px, 100%);
+    margin: auto;
+    display: flex;
+    background: white;
+    border: 1px solid #dfe3e8;
+    border-radius: 18px;
+    padding: 7px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.07);
+  }
+  input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    padding: 13px 16px;
+    font-size: 17px;
+    min-width: 0;
+  }
+  button {
+    border: 0;
+    border-radius: 13px;
+    background: #315efb;
+    color: white;
+    padding: 0 25px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button:hover { background: #244bd4; }
+  .engines {
+    margin-top: 18px;
+    color: #747980;
+    font-size: 13px;
+  }
+  .engines button {
+    background: none;
+    color: #315efb;
+    padding: 0 5px;
+    font-weight: 600;
+  }
+  .quick {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 28px;
+  }
+  .quick a {
+    text-decoration: none;
+    color: #42464d;
+    background: white;
+    border: 1px solid #e1e4e8;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+  }
+  .quick a:hover { border-color: #315efb; color: #315efb; }
+  footer {
+    margin-top: auto;
+    padding: 24px;
+    text-align: center;
+    color: #8a8e94;
+    font-size: 12px;
+  }
+  @media (max-width: 560px) {
+    header { padding: 0 17px; }
+    main { margin-top: 9vh; }
+    form { border-radius: 15px; }
+    button { padding: 0 17px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span>V</span>eyra</div>
+  <a class="top-link" href="https://duckduckgo.com/" target="_blank" rel="noopener">Powered by web search</a>
+</header>
+
+<main>
+  <h1>Veyra</h1>
+  <p class="tagline">A simple search engine for the open web.</p>
+
+  <form id="searchForm">
+    <input id="query" type="search" autocomplete="off"
+           placeholder="Search the web..." aria-label="Search the web" autofocus>
+    <button type="submit">Search</button>
+  </form>
+
+  <div class="engines">
+    Search with
+    <button type="button" onclick="setEngine('duck')">DuckDuckGo</button>
+    ·
+    <button type="button" onclick="setEngine('google')">Google</button>
+    ·
+    <button type="button" onclick="setEngine('bing')">Bing</button>
+  </div>
+
+  <div class="quick">
+    <a href="https://duckduckgo.com/?q=weather" target="_blank">Weather</a>
+    <a href="https://duckduckgo.com/?q=news" target="_blank">News</a>
+    <a href="https://duckduckgo.com/?q=maps" target="_blank">Maps</a>
+    <a href="https://duckduckgo.com/?q=images" target="_blank">Images</a>
+  </div>
+</main>
+
+<footer>
+  Veyra Search · Built as an original custom search homepage
+</footer>
+
+<script>
+let engine = "duck";
+
+function setEngine(name) {
+  engine = name;
+  document.getElementById("query").focus();
+}
+
+document.getElementById("searchForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const q = document.getElementById("query").value.trim();
+  if (!q) return;
+
+  const encoded = encodeURIComponent(q);
+  let url;
+
+  if (engine === "google") {
+    url = "https://www.google.com/search?q=" + encoded;
+  } else if (engine === "bing") {
+    url = "https://www.bing.com/search?q=" + encoded;
+  } else {
+    url = "https://duckduckgo.com/?q=" + encoded;
+  }
+
+  window.location.href = url;
+});
+</script>
+</body>
+</html>
